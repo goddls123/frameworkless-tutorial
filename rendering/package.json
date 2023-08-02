@@ -1,4 +1,9 @@
 {
+  "scripts": {
+    "start": "http-server",
+    "deploy": "now && now alias",
+    "test": "jest"
+  },
   "dependencies": {
     "http-server": "^14.1.1"
   }
