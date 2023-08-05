@@ -15,10 +15,10 @@ const renderRoot = (root,state, events)=>{
 
 
 const renderWrapper = component=>{
-    return (targetElement,state)=>{
+    return (targetElement,state, events)=>{
         const element = component(targetElement,state, events)
 
-        const childComponents =element.querySelectorAll(['data-component'])
+        const childComponents =element.querySelectorAll('[data-component]')
 
         const child = Array.from(childComponents)
                             .forEach((target)=>{

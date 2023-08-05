@@ -18,11 +18,11 @@ registry.add('todos',todosView)
 
 
 
-events ={
+const events = {
     addItem: (text)=>{
         state.todos.push({
             text,
-            completed:fase
+            completed:false
         })
         render()
     },
@@ -37,7 +37,7 @@ const render =()=>{
     window.requestAnimationFrame(()=>{
         const main = document.querySelector('#root')
         const newMain = registry.renderRoot(main, state,events)
-        applyDiff(document.body,main,newMain, events)
+        applyDiff(document.body,main,newMain)
     })
 }
 

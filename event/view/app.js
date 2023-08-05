@@ -5,11 +5,11 @@ const getTemplate = () => {
         template = document.getElementById('todo-app')
     }
 
-    return template.content.firtElementChild.cloneNode(true)
+    return template.content.firstElementChild.cloneNode(true)
  }
 
  const addEvents = (targetElement , events)=>{
-    targetElement.querySelector('.new-todo').addEventListner('keypress', e=>{
+    targetElement.querySelector('.new-todo').addEventListener('keypress', e=>{
         if (e.key === 'Enter'){
             events.addItem(e.target.value)
             e.target.value =''

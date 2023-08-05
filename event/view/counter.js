@@ -1,4 +1,3 @@
-let template
 
 
 const getTodoCount = todos =>{

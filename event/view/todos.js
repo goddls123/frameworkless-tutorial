@@ -8,7 +8,7 @@ const getNewTodoNode = () => {
         template = document.getElementById('todo-item')
     }
 
-    return template.content.firtElementChild.cloneNode(true)
+    return template.content.firstElementChild.cloneNode(true)
 }
 
 const getTodoElement = (todo, index) =>{
@@ -42,17 +42,15 @@ export default (targetElement, state , events) =>{
 
     const newTodoList = targetElement.cloneNode(true);
 
-    newTodoList.innerHtml = todos.map(getTodoElement).join('')
     newTodoList.innerHtml = ''
 
-        newTodoList.appendChild(element)
         todos
             .map((todo,index)=>getTodoElement(todo,index))
             .forEach(element=>{
                 newTodoList.appendChild(element)
             })
     
-    newTodoList.addEventListner('click', (e)=>{
+    newTodoList.addEventListener('click', (e)=>{
         if (e.target.matches('button.destroy')){
             deleteItem(e.target.dataset.index)
         }
