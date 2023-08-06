@@ -27,6 +27,10 @@ const events = {
     deleteItem: (index)=>{
         state.todos.splice(index,1)
         render()
+    },
+    toggleCompleted: (index)=>{
+        state.todos[index].completed = !state.todos[index].completed
+        render()
     }
 }
 

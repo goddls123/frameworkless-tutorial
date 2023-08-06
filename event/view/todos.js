@@ -32,28 +32,32 @@ const getTodoElement = (todo, index) =>{
     }
 
     element.querySelector('button.destroy').dataset.index =index
+    element.querySelector('input.toggle').dataset.index =index
 
     return element
 }
 
 export default (targetElement, state , events) =>{
 
-    const {deleteItem} = events;
+    const {deleteItem,toggleCompleted} = events;
     const {todos} = state
 
     const newTodoList = targetElement.cloneNode(true);
 
     newTodoList.innerHtml = ''
 
-        todos
-            .map((todo,index)=>getTodoElement(todo,index))
-            .forEach(element=>{
-                newTodoList.appendChild(element)
-            })
+    todos
+        .map((todo,index)=>getTodoElement(todo,index))
+        .forEach(element=>{
+            newTodoList.appendChild(element)
+        })
     
     newTodoList.addEventListener('click', (e)=>{
         if (e.target.matches('button.destroy')){
             deleteItem(e.target.dataset.index)
+        }
+        if (e.target.matches('input.toggle')){
+            toggleCompleted(e.target.dataset.index)
         }
     })
 

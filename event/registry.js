@@ -9,21 +9,16 @@ const renderRoot = (root,state, events)=>{
     const cloneComponent = root =>{
         return root.cloneNode(true);
     }
-    const result = renderWrapper(cloneComponent)(root, state,events)
-    console.log(result)
-    return result
+    return renderWrapper(cloneComponent)(root, state,events)
 }
 
 
 const renderWrapper = component=>{
     return (targetElement,state, events)=>{
-        const element = component(targetElement,state, events)
 
+        const element = component(targetElement,state, events)
         const childComponents =element.querySelectorAll('[data-component]')
 
-        if (childComponents){
-            console.log(childComponents)
-        }
         Array
             .from(childComponents)
             .forEach(target =>{
@@ -36,7 +31,6 @@ const renderWrapper = component=>{
                 }
                 
                 target.replaceWith(child(target, state, events))
-                // console.log(target)
             })
             
         return element
