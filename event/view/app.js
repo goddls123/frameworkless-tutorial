@@ -15,6 +15,9 @@ const getTemplate = () => {
             e.target.value =''
         }
     })
+    targetElement.querySelector('button.clear-completed').addEventListener('click', e =>{
+        events.clearCompleted()
+    })
  }
 
 

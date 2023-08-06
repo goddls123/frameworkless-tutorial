@@ -31,6 +31,11 @@ const events = {
     toggleCompleted: (index)=>{
         state.todos[index].completed = !state.todos[index].completed
         render()
+    },
+    clearCompleted:()=>{
+        state.todos = state.todos.filter(todo => !todo.completed)
+        
+        render()
     }
 }
 
