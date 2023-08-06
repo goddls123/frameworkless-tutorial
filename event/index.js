@@ -33,10 +33,14 @@ const events = {
         render()
     },
     clearCompleted:()=>{
-        state.todos = state.todos.filter(todo => !todo.completed)
-        
+        state.todos = state.todos.filter(todo => !todo.completed)    
+        render();
+    },
+    changeFilter:(filter)=>{
+        state.currentFilter=filter
         render()
     }
+    
 }
 
 

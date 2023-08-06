@@ -40,17 +40,22 @@ const getTodoElement = (todo, index) =>{
 export default (targetElement, state , events) =>{
 
     const {deleteItem,toggleCompleted} = events;
-    const {todos} = state
+    const {todos,currentFilter} = state
 
     const newTodoList = targetElement.cloneNode(true);
 
     newTodoList.innerHtml = ''
 
     todos
-        .map((todo,index)=>getTodoElement(todo,index))
-        .forEach(element=>{
-            newTodoList.appendChild(element)
+        .filter(todo =>{
+            if (currentFilter === 'All'){
+                return true
+            }
+            
+            return currentFilter === 'Completed' ? todo.completed :!todo.completed 
         })
+        .map((todo,index)=>getTodoElement(todo,index))
+        .forEach(element=>{newTodoList.appendChild(element)})
     
     newTodoList.addEventListener('click', (e)=>{
         if (e.target.matches('button.destroy')){
