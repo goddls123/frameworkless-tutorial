@@ -16,7 +16,8 @@ const getTodoElement = (todo, index) =>{
 
     const element =getNewTodoNode()
     
-    element.querySelector('input.value') = text;
+
+    element.querySelector('input.edit').value = text;
     element.querySelector('label').textContent = text; 
 
     if (completed){

@@ -20,11 +20,11 @@ const getTemplate = () => {
 
  export default (targetElement,state, events) => { 
     const newApp =targetElement.cloneNode(true)
-
-    newApp.innerHtml = ''
+    
+    newApp.innerHTML = ''
     newApp.appendChild(getTemplate())
-
-    addEvents(newApp,events)
+    
+    addEvents(newApp, events)
 
     return newApp
   }

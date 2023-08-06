@@ -9,8 +9,9 @@ const renderRoot = (root,state, events)=>{
     const cloneComponent = root =>{
         return root.cloneNode(true);
     }
-
-    return renderWrapper(cloneComponent)(root, state,events)
+    const result = renderWrapper(cloneComponent)(root, state,events)
+    console.log(result)
+    return result
 }
 
 
@@ -20,19 +21,24 @@ const renderWrapper = component=>{
 
         const childComponents =element.querySelectorAll('[data-component]')
 
-        const child = Array.from(childComponents)
-                            .forEach((target)=>{
-                                const name = target.dataset.component
-                                
-                                const child = registry[name]
+        if (childComponents){
+            console.log(childComponents)
+        }
+        Array
+            .from(childComponents)
+            .forEach(target =>{
+                const name = target.dataset.component
+                
+                const child = registry[name]
 
-                                if(!child){
-                                    return
-                                }
-
-                                target.replaceWith(child(target, state, events))
-                            })
-        
+                if(!child){
+                    return
+                }
+                
+                target.replaceWith(child(target, state, events))
+                // console.log(target)
+            })
+            
         return element
     }
 }
