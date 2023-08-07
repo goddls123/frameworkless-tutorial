@@ -47,6 +47,9 @@ export default (targetElement, state , events) =>{
     newTodoList.innerHtml = ''
 
     todos
+        .map((todo,index) => {
+            return {...todo ,index}
+        })
         .filter(todo =>{
             if (currentFilter === 'All'){
                 return true
@@ -54,7 +57,7 @@ export default (targetElement, state , events) =>{
             
             return currentFilter === 'Completed' ? todo.completed :!todo.completed 
         })
-        .map((todo,index)=>getTodoElement(todo,index))
+        .map((todo)=>getTodoElement(todo,todo.index))
         .forEach(element=>{newTodoList.appendChild(element)})
     
     newTodoList.addEventListener('click', (e)=>{

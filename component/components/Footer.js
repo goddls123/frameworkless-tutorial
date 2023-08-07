@@ -88,9 +88,16 @@ export default class Footer extends HTMLElement {
         })
     }
 
-    attributeChangedCallback(){
-        this.updateCounter()
-        this.updateFilter()
+    attributeChangedCallback(name){
+        if (name === 'todos'){
+            this.updateCounter()
+            return
+        }
+
+        if (name === 'filter'){
+            this.updateFilter()
+            return
+        }
     }
 
 }
