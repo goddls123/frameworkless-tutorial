@@ -1,10 +1,7 @@
 
 const TEMPLATE = `<ul class="todo-list"></ul>`
 
-
-export const EVENTS={
-    DELETE_ITEM: 'DELETE_ITEM'
-}
+import { EVENTS } from "../events"
 
 
 export default class List extends HTMLElement{
@@ -29,6 +26,32 @@ export default class List extends HTMLElement{
     set filter(value){
         this._filter = value
     }   
+
+    onDeleteClick (index){
+        const event = new CustomEvent(
+            EVENTS.DELETE_ITEM,
+            {
+                detail: {
+                    index
+                }
+            }
+        )
+        this.dispatchEvent(event)
+    }
+
+    onToggleClick (index){
+        const event = new CustomEvent(
+            EVENTS.TOGGLE_COMPLETED,
+            {
+                detail: {
+                    index
+                }
+            }
+        )
+        this.dispatchEvent(event)
+    }
+
+    
 
     updateList(){
         this.list.innerHTML = ''
@@ -89,7 +112,7 @@ export default class List extends HTMLElement{
 
         this.list.addEventListener('click', e =>{
             if (e.target.matches('button.destroy')){
-            deleteItem(e.target.dataset.index)
+            this.onDeleteClick(e.target.dataset.index)
         }
         if (e.target.matches('input.toggle')){
             toggleCompleted(e.target.dataset.index)

@@ -1,5 +1,5 @@
 
-
+import { EVENTS } from "./List"
 
 
 export default class App extends HTMLElement {
@@ -16,6 +16,11 @@ export default class App extends HTMLElement {
 
     deleteItem(index){
         this.state.todos.splice(index,1)
+        this.setState()
+    }
+
+    toggleCompleted(index){
+        this.state.todos[index].completed = !this.state.todos[index].completed
     }
     
     addItem(text){
@@ -23,13 +28,14 @@ export default class App extends HTMLElement {
             text,
             completed:false
         })
+        this.setState()
     }
 
     setState ( ){
         this.list.todos = this.state.todos
         this.list.filter= this.state.currentFilter
-        this.footer.todos = this.state.todos
-        this.footer.filter = this.state.currentFilter
+        // this.footer.todos = this.state.todos
+        // this.footer.filter = this.state.currentFilter
     }
 
     connectedCallback(){
@@ -46,10 +52,15 @@ export default class App extends HTMLElement {
                     }
                 })
 
-            this.footer = this.querySelector('todomvc-footer')
+            // this.footer = this.querySelector('todomvc-footer')
 
             this.list = this.querySelector('todomvc-list')
-            this.list.addEventListener()
+            this.list.addEventListener(EVENTS.DELETE_ITEM, e =>{
+                this.deleteItem(e.detail.index)
+            })
+            this.list.addEventListener(EVENTS.TOGGLE_COMPLETED, e =>{
+                this.toggleCompleted(e.detail.index)
+            })
         })
 
         this.setState()
