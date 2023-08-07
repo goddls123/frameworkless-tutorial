@@ -6,17 +6,20 @@ import { EVENTS } from "../events.js"
 
 export default class List extends HTMLElement{
     static get observedAttributes(){
-        return ['todos', 'filter']
+        return ['todos']
     }
     
-    _todos = []
-
-    get todos (){
-        return this._todos
+    get todos () {
+        if (!this.hasAttribute('todos')) {
+        return []
+        }
+    
+        return JSON.parse(this.getAttribute('todos'))
     }
-
-    set todos (value){
-        this._todos = value
+    
+    set todos (value) {
+        if (value)
+            this.setAttribute('todos', JSON.stringify(value))
     }
 
     get filter(){
@@ -69,17 +72,13 @@ export default class List extends HTMLElement{
     }
 
     getNewTodoNode = () => { 
-        if (!template) {
-            template = document.getElementById('todo-item')
-        }
-    
-        return template.content.firstElementChild.cloneNode(true)
+        return this.itemTemplate.content.firstElementChild.cloneNode(true)
     }
 
     getTodoElement (todo, index){
         const {text, completed} = todo
     
-        const element =getNewTodoNode()
+        const element = this.getNewTodoNode()
         
     
         element.querySelector('input.edit').value = text;
@@ -107,6 +106,8 @@ export default class List extends HTMLElement{
     connectedCallback(){
         this.innerHTML = TEMPLATE
         this.itemTemplate = document.getElementById('todo-item')
+
+        this.filter = 'All'
 
         this.list = this.querySelector('ul')
 
