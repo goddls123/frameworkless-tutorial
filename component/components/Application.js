@@ -1,5 +1,5 @@
 
-import { EVENTS } from "./List"
+import { EVENTS } from "../events.js"
 
 
 export default class App extends HTMLElement {

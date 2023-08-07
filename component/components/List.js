@@ -1,7 +1,7 @@
 
 const TEMPLATE = `<ul class="todo-list"></ul>`
 
-import { EVENTS } from "../events"
+import { EVENTS } from "../events.js"
 
 
 export default class List extends HTMLElement{
@@ -115,7 +115,7 @@ export default class List extends HTMLElement{
             this.onDeleteClick(e.target.dataset.index)
         }
         if (e.target.matches('input.toggle')){
-            toggleCompleted(e.target.dataset.index)
+            this.onToggleClick(e.target.dataset.index)
         }
         })
     }
