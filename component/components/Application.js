@@ -13,6 +13,11 @@ export default class App extends HTMLElement {
         this.template = document.getElementById('todo-app')
     }
 
+    clearCompleted (){
+        this.state.todos = this.state.todos.filter(todo => !todo.completed)    
+        this.setTodos()
+    }
+
     deleteItem(index){
         this.state.todos.splice(index,1)
         this.setTodos()
@@ -69,6 +74,10 @@ export default class App extends HTMLElement {
                     }
                 })
 
+            this.querySelector('button.clear-completed').addEventListener('click', e =>{
+                this.clearCompleted()
+            })
+            
             this.footer = this.querySelector('todomvc-footer')
 
             this.list = this.querySelector('todomvc-list')
