@@ -59,8 +59,10 @@ export default class List extends HTMLElement{
 
     updateList(){
         this.list.innerHTML = ''
-
         this.todos
+        .map((todo,index) => {
+            return {...todo ,index}
+        })
         .filter(todo =>{
             if (this.filter === 'All'){
                 return true
@@ -68,7 +70,7 @@ export default class List extends HTMLElement{
             
             return this.filter === 'Completed' ? todo.completed :!todo.completed 
         })
-        .map((todo,index)=>this.getTodoElement(todo,index))
+        .map((todo)=>this.getTodoElement(todo,todo.index))
         .forEach(element=>{this.list.appendChild(element)})
     }
 

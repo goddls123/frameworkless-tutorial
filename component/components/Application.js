@@ -1,4 +1,7 @@
 
+// 추우에 eventListner 정리 및 입력 부분과 버튼 부분 컴포넌트
+//처음에 List rendering 2번 되는 부분
+
 import { EVENTS } from "../events.js"
 
 
@@ -77,7 +80,7 @@ export default class App extends HTMLElement {
             this.querySelector('button.clear-completed').addEventListener('click', e =>{
                 this.clearCompleted()
             })
-            
+
             this.footer = this.querySelector('todomvc-footer')
 
             this.list = this.querySelector('todomvc-list')

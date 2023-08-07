@@ -1,4 +1,6 @@
 
+//counter 와 filter로 component 분리
+
 import { EVENTS } from "../events.js";
 
 const getTodoCount = todos =>{
