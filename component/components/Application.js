@@ -31,14 +31,19 @@ export default class App extends HTMLElement {
         this.setTodos()
     }
 
+    changeFilter(filter) {
+        this.state.currentFilter=filter
+        this.setFilter()
+    }
+
     setFilter(){
         this.list.filter= this.state.currentFilter
-        // this.footer.filter = this.state.currentFilter
+        this.footer.filter = this.state.currentFilter
     }
 
     setTodos(){
         this.list.todos = this.state.todos
-        // this.footer.todos = this.state.todos
+        this.footer.todos = this.state.todos
     }
     
     setState ( ){
@@ -64,7 +69,7 @@ export default class App extends HTMLElement {
                     }
                 })
 
-            // this.footer = this.querySelector('todomvc-footer')
+            this.footer = this.querySelector('todomvc-footer')
 
             this.list = this.querySelector('todomvc-list')
 
@@ -75,6 +80,11 @@ export default class App extends HTMLElement {
             this.list.addEventListener(EVENTS.TOGGLE_COMPLETED, e =>{
                 this.toggleCompleted(e.detail.index)
             })
+
+            this.footer.addEventListener(EVENTS.CHANGE_FILTER, e=>{
+                this.changeFilter(e.detail.text)
+            })
+        
             this.setState()
         })
     }

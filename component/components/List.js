@@ -59,7 +59,6 @@ export default class List extends HTMLElement{
 
     updateList(){
         this.list.innerHTML = ''
-        console.log("update")
 
         this.todos
         .filter(todo =>{
