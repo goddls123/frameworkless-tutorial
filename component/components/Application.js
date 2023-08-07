@@ -1,5 +1,7 @@
 
 
+
+
 export default class App extends HTMLElement {
 
     constructor(){
@@ -15,6 +17,7 @@ export default class App extends HTMLElement {
     deleteItem(index){
         this.state.todos.splice(index,1)
     }
+    
     addItem(text){
         state.todos.push({
             text,
@@ -22,8 +25,9 @@ export default class App extends HTMLElement {
         })
     }
 
-    syncAttributes ( ){
+    setState ( ){
         this.list.todos = this.state.todos
+        this.list.filter= this.state.currentFilter
         this.footer.todos = this.state.todos
         this.footer.filter = this.state.currentFilter
     }
@@ -45,6 +49,9 @@ export default class App extends HTMLElement {
             this.footer = this.querySelector('todomvc-footer')
 
             this.list = this.querySelector('todomvc-list')
+            this.list.addEventListener()
         })
+
+        this.setState()
     }
 }
