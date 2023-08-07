@@ -15,11 +15,12 @@ export default class App extends HTMLElement {
 
     deleteItem(index){
         this.state.todos.splice(index,1)
-        this.setState()
+        this.setTodos()
     }
 
     toggleCompleted(index){
         this.state.todos[index].completed = !this.state.todos[index].completed
+        this.setTodos()
     }
     
     addItem(text){
@@ -27,14 +28,22 @@ export default class App extends HTMLElement {
             text,
             completed:false
         })
-        this.setState()
+        this.setTodos()
     }
 
-    setState ( ){
-        this.list.todos = this.state.todos
-        // this.list.filter= this.state.currentFilter
-        // this.footer.todos = this.state.todos
+    setFilter(){
+        this.list.filter= this.state.currentFilter
         // this.footer.filter = this.state.currentFilter
+    }
+
+    setTodos(){
+        this.list.todos = this.state.todos
+        // this.footer.todos = this.state.todos
+    }
+    
+    setState ( ){
+        this.setFilter()
+        this.setTodos()
     }
 
     connectedCallback(){
@@ -69,39 +78,5 @@ export default class App extends HTMLElement {
             this.setState()
         })
     }
-
-    // connectedCallback () {
-    //     window.requestAnimationFrame(() => {
-    //       const content = this.template
-    //         .content
-    //         .firstElementChild
-    //         .cloneNode(true)
-    
-    //       this.appendChild(content)
-    
-    //       this
-    //         .querySelector('.new-todo')
-    //         .addEventListener('keypress', e => {
-    //           if (e.key === 'Enter') {
-    //             this.addItem(e.target.value)
-    //             e.target.value = ''
-    //           }
-    //         })
-    
-    //       this.footer = this
-    //         .querySelector('todomvc-footer')
-    
-    //       this.list = this.querySelector('todomvc-list')
-
-    //       console.log(this.list)
-    //       this.list.addEventListener(
-    //         EVENTS.DELETE_ITEM,
-    //         e => {
-    //           this.deleteItem(e.detail.index)
-    //         }
-    //       )
-    
-    //     })
-    //   }
 
 }

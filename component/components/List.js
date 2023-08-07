@@ -6,9 +6,10 @@ import { EVENTS } from "../events.js"
 
 export default class List extends HTMLElement{
     static get observedAttributes(){
-        return ['todos']
+        return ['todos','filter']
     }
-    
+
+
     get todos () {
         if (!this.hasAttribute('todos')) {
         return []
@@ -23,11 +24,11 @@ export default class List extends HTMLElement{
     }
 
     get filter(){
-        return this._filter
+        return this.getAttribute('filter')
     }
 
     set filter(value){
-        this._filter = value
+        this.setAttribute('filter',value)
     }   
 
     onDeleteClick (index){
@@ -58,6 +59,7 @@ export default class List extends HTMLElement{
 
     updateList(){
         this.list.innerHTML = ''
+        console.log("update")
 
         this.todos
         .filter(todo =>{
@@ -107,7 +109,6 @@ export default class List extends HTMLElement{
         this.innerHTML = TEMPLATE
         this.itemTemplate = document.getElementById('todo-item')
 
-        this.filter = 'All'
 
         this.list = this.querySelector('ul')
 
