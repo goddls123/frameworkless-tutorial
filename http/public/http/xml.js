@@ -1,37 +1,69 @@
-const parseResponse = async response => {
-    const { status } = response
+
+const HEADERS = {
+    'Content-Type': 'application/json'
+}
+
+
+const setHeaders = (xhr, headers) => {
+    Object.entries(headers).forEach(entry => {
+      const [
+        name,
+        value
+      ] = entry
+  
+      xhr.setRequestHeader(
+        name,
+        value
+      )
+    })
+  }
+
+const parseResponse = xhr => {
+    const {
+    status,
+    responseText
+    } = xhr
+
     let data
     if (status !== 204) {
-        data = await response.json()
+    data = JSON.parse(responseText)
     }
 
     return {
-        status,
-        data
+    status,
+    data
     }
 }
 
-const request = async params => {
-    const {
-        method = 'GET',
-        url,
-        headers = {},
-        body
-    } = params
-  
-    const config = {
-        method,
-        headers: new window.Headers(headers)
+const request = params => {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+
+        const {
+            method = 'GET',
+            url,
+            headers = HEADERS,
+            body
+        } = params
+
+        xhr.open(method, url)
+    
+        setHeaders(xhr, headers)
+    
+        xhr.send(JSON.stringify(body))
+    
+        xhr.onerror = () => {
+            reject(new Error('HTTP Error'))
+        }
+    
+        xhr.ontimeout = () => {
+            reject(new Error('Timeout Error'))
+        }
+    
+        xhr.onload = () => resolve(parseResponse(xhr))
+        })
     }
-  
-    if (body) {
-        config.body = JSON.stringify(body)
-    }
-  
-    const response = await window.fetch(url, config)
-  
-    return parseResponse(response)
-}
+
 
 const get = async (url, headers) =>{
     const response = await request({

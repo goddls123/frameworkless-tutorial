@@ -1,10 +1,15 @@
 
 
+const HEADERS = {
+    'Content-Type': 'application/json'
+}
+
+
 const request = async params => {
     const {
         method = 'GET',
         url,
-        headers = {},
+        headers = HEADERS,
         body
     } = params
     

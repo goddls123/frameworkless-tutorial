@@ -28,6 +28,7 @@ app.post('/api/todos', (req, res) => {
   res.send(newTodo)
 })
 
+
 app.patch('/api/todos/:id', (req, res) => {
   const updateIndex = findIndex(
     todos,
@@ -49,6 +50,13 @@ app.delete('/api/todos/:id', (req, res) => {
   todos = todos.filter(
     t => t.id !== req.params.id
   )
+
+  res.status(204)
+  res.send()
+})
+
+app.delete('/api/delete', (req, res) => {
+  todos = todos.filter(todo => !todo.completed)
 
   res.status(204)
   res.send()
