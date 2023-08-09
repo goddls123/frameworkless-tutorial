@@ -6,21 +6,26 @@ const HEADERS = {
 
 
 const request = async params => {
-    const {
-        method = 'GET',
-        url,
-        headers = HEADERS,
-        body
-    } = params
-    
-    const config = {
-        url,
-        method,
-        headers,
-        data: body
+    try{
+        const {
+            method = 'GET',
+            url,
+            headers = HEADERS,
+            body
+        } = params
+        
+        const config = {
+            url,
+            method,
+            headers,
+            data: body
+        }
+        
+        return axios(config)
     }
-    
-    return axios(config)
+    catch(error){
+        alert(error)
+    }    
 }
 
 const get = async (url, headers) =>{

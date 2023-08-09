@@ -20,25 +20,31 @@ const parseResponse = async response => {
 }
 
 const request = async params => {
-    const {
-        method = 'GET',
-        url,
-        headers = HEADERS,
-        body
-    } = params
-  
-    const config = {
-        method,
-        headers: new window.Headers(headers)
+    try {
+        const {
+            method = 'GET',
+            url,
+            headers = HEADERS,
+            body
+        } = params
+    
+        const config = {
+            method,
+            headers: new window.Headers(headers)
+        }
+    
+        if (body) {
+            config.body = JSON.stringify(body)
+        }
+    
+        const response = await window.fetch(url, config)
+    
+        return parseResponse(response)
     }
-  
-    if (body) {
-        config.body = JSON.stringify(body)
+    catch(error){
+        alert(error)
     }
-  
-    const response = await window.fetch(url, config)
-  
-    return parseResponse(response)
+    
 }
 
 const get = async (url, headers) =>{
