@@ -36,17 +36,9 @@ const getTodoElement = (todo, index) =>{
 
     return element
 }
+const filterTodos = (todos,currentFilter)=>{
 
-export default (targetElement, state , events) =>{
-
-    const {deleteItem,toggleCompleted} = events;
-    const {todos,currentFilter} = state
-
-    const newTodoList = targetElement.cloneNode(true);
-
-    newTodoList.innerHtml = ''
-
-    todos
+    return todos
         .map((todo,index) => {
             return {...todo ,index}
         })
@@ -56,10 +48,13 @@ export default (targetElement, state , events) =>{
             }
             
             return currentFilter === 'Completed' ? todo.completed :!todo.completed 
-        })
-        .map((todo)=>getTodoElement(todo,todo.index))
-        .forEach(element=>{newTodoList.appendChild(element)})
-    
+        })    
+}
+
+const attachEvents = (newTodoList,events)=>{
+
+    const {deleteItem,toggleCompleted} = events;
+
     newTodoList.addEventListener('click', (e)=>{
         if (e.target.matches('button.destroy')){
             deleteItem(e.target.dataset.index)
@@ -68,6 +63,23 @@ export default (targetElement, state , events) =>{
             toggleCompleted(e.target.dataset.index)
         }
     })
+}
+
+export default (targetElement, state , events) =>{
+
+    const {todos,currentFilter} = state
+
+    const newTodoList = targetElement.cloneNode(true);
+
+    newTodoList.innerHtml = ''
+
+    const filterdTodos = filterTodos(todos, currentFilter)
+
+    filterdTodos
+        .map((todo)=>getTodoElement(todo,todo.index))
+        .forEach(element=>{newTodoList.appendChild(element)})
+    
+    attachEvents(newTodoList,events)
 
     return newTodoList
 }
