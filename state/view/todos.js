@@ -38,17 +38,17 @@ const getTodoElement = (todo, index) =>{
 }
 const filterTodos = (todos,currentFilter)=>{
 
-    return todos
-        .map((todo,index) => {
-            return {...todo ,index}
-        })
-        .filter(todo =>{
-            if (currentFilter === 'All'){
-                return true
-            }
-            
-            return currentFilter === 'Completed' ? todo.completed :!todo.completed 
-        })    
+    const todoList = todos.map((todo,index) => {return {...todo ,index}})
+    const isCompleted = todo => todo.completed
+    if (currentFilter === 'Active'){
+        return todoList.filter(t => !isCompleted(t))
+    }
+
+    if (currentFilter === 'Completed'){
+        return todoList.filter(t => isCompleted(t))
+    }
+
+    return [...todoList]
 }
 
 const attachEvents = (newTodoList,events)=>{
