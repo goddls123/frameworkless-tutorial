@@ -19,6 +19,7 @@ export default (targetElement, {currentFilter}, events) =>{
     
     newFilters.addEventListener('click', (e)=>{
         if (e.target.matches('a')){
+            e.preventDefault()
             changeFilter(e.target.textContent)
         }
     })

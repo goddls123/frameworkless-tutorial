@@ -11,7 +11,7 @@ const getNewTodoNode = () => {
     return template.content.firstElementChild.cloneNode(true)
 }
 
-const getTodoElement = (todo, index) =>{
+const getTodoElement = (todo, index, events) =>{
     const {text, completed} = todo
 
     const element =getNewTodoNode()
@@ -34,7 +34,32 @@ const getTodoElement = (todo, index) =>{
     element.querySelector('button.destroy').dataset.index =index
     element.querySelector('input.toggle').dataset.index =index
 
+    attachEventsToTodoElement(element,index,events)
+
     return element
+}
+
+
+const attachEventsToTodoElement = (element,index,events)=>{
+    element
+    .addEventListener('dblclick', () => {
+        element.classList.add('editing')
+        element
+        .querySelector('input.edit').focus()
+    })
+
+    element
+    .querySelector('input.edit')
+    .addEventListener('keydown', e => {
+        if (e.key === 'Enter') {
+        element.classList.remove('editing')
+        events.updateItem(index, e.target.value)
+        }
+
+        if (e.key === 'Escape') {
+            element.classList.remove('editing')
+        }
+    })
 }
 const filterTodos = (todos,currentFilter)=>{
 
@@ -76,7 +101,7 @@ export default (targetElement, state , events) =>{
     const filterdTodos = filterTodos(todos, currentFilter)
 
     filterdTodos
-        .map((todo)=>getTodoElement(todo,todo.index))
+        .map((todo)=>getTodoElement(todo,todo.index, events))
         .forEach(element=>{newTodoList.appendChild(element)})
     
     attachEvents(newTodoList,events)

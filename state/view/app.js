@@ -9,16 +9,20 @@ const getTemplate = () => {
  }
 
  const addEvents = (targetElement , events)=>{
+    const {clearCompleted, addItem ,completeAll} = events
+
     targetElement.querySelector('.new-todo').addEventListener('keypress', e=>{
         if (e.key === 'Enter'){
-            events.addItem(e.target.value)
+            addItem(e.target.value)
             e.target.value =''
         }
     })
-    targetElement.querySelector('button.clear-completed').addEventListener('click', e =>{
-        events.clearCompleted()
-    })
- }
+
+    targetElement.querySelector('button.clear-completed').addEventListener('click', clearCompleted)
+
+    targetElement.querySelector('input.toggle-all').addEventListener('click', completeAll)
+
+}
 
 
  export default (targetElement,state, events) => { 

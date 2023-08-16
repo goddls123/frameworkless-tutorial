@@ -39,7 +39,16 @@ const events = {
     changeFilter:(filter)=>{
         state.currentFilter=filter
         render()
+    },
+    updateItem:(index, text)=>{
+        state.todos[index].text = text
+        render()
+    },
+    completeAll:()=>{
+        state.todos.forEach(todo =>{ todo.completed = true })
+        render()
     }
+
     
 }
 
