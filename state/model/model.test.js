@@ -46,4 +46,5 @@ describe('TodoMVC Model', () => {
 
         expect(todos[0].text).toBe('dummy')
     })
+
 })

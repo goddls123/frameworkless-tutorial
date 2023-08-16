@@ -5,10 +5,7 @@ import todosView from './view/todos.js'
 import registry from "./registry.js";
 import applyDiff from "./applyDiff.js";
 
-const state ={
-    todos :[],
-    currentFilter : 'All'
-}
+import modelFactory from "./model/model.js"
 
 
 registry.add('app',appView)
@@ -16,44 +13,23 @@ registry.add('filters',filtersView)
 registry.add('counter',counterView)
 registry.add('todos',todosView)
 
-const events = {
-    addItem: (text)=>{
-        state.todos.push({
-            text,
-            completed:false
-        })
-        render()
-    },
-    deleteItem: (index)=>{
-        state.todos.splice(index,1)
-        render()
-    },
-    toggleCompleted: (index)=>{
-        state.todos[index].completed = !state.todos[index].completed
-        render()
-    },
-    clearCompleted:()=>{
-        state.todos = state.todos.filter(todo => !todo.completed)    
-        render();
-    },
-    changeFilter:(filter)=>{
-        state.currentFilter=filter
-        render()
-    },
-    updateItem:(index, text)=>{
-        state.todos[index].text = text
-        render()
-    },
-    completeAll:()=>{
-        state.todos.forEach(todo =>{ todo.completed = true })
-        render()
+
+const loadState = ()=>{
+    const seriallizedState = window.localStorage.getItem('state')
+
+    if (!seriallizedState){
+        return
     }
 
-    
+    return JSON.parse(seriallizedState)
 }
 
+const model =modelFactory(loadState())
 
-const render =()=>{
+const {addChangeListener, ...events} = model
+
+
+const render =(state)=>{
     window.requestAnimationFrame(()=>{
         const main = document.querySelector('#root')
         const newMain = registry.renderRoot(main, state, events)
@@ -61,5 +37,10 @@ const render =()=>{
     })
 }
 
+addChangeListener(render)
 
-render()
+addChangeListener(state => {
+    Promise.resolve().then(()=>{
+        window.localStorage.setItem('state', JSON.stringify(state))
+    })
+})

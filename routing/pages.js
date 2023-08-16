@@ -9,6 +9,7 @@ export default container => {
       .textContent = 'This is List Page'
   }
 
+  
   const detail = (params) => {
     const { id } = params
     container
