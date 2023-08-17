@@ -40,6 +40,8 @@ export default (model) =>{
             return
         }
 
+        state =newState
+        
         invokeSubscribers()
     }
 

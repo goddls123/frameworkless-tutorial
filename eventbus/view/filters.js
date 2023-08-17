@@ -1,12 +1,11 @@
+import eventCreators from "../model/eventCreators.js";
 
 
 
 
-
-export default (targetElement, {currentFilter}, events) =>{
+export default (targetElement, {currentFilter}, dispatch) =>{
 
     const newFilters = targetElement.cloneNode(true);
-    const {changeFilter} = events
 
     Array
         .from(newFilters.querySelectorAll('li a'))
@@ -20,7 +19,7 @@ export default (targetElement, {currentFilter}, events) =>{
     newFilters.addEventListener('click', (e)=>{
         if (e.target.matches('a')){
             e.preventDefault()
-            changeFilter(e.target.textContent)
+            dispatch(eventCreators.changeFilter(e.target.textContent))
         }
     })
     

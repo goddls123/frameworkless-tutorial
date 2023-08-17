@@ -1,3 +1,5 @@
+import eventCreators from "../model/eventCreators.js"
+
 let template
 
 const getTemplate = () => { 
@@ -8,30 +10,35 @@ const getTemplate = () => {
     return template.content.firstElementChild.cloneNode(true)
  }
 
- const addEvents = (targetElement , events)=>{
-    const {clearCompleted, addItem ,completeAll} = events
+ const addEvents = (targetElement , dispatch)=>{
 
     targetElement.querySelector('.new-todo').addEventListener('keypress', e=>{
         if (e.key === 'Enter'){
-            addItem(e.target.value)
+            dispatch(eventCreators.addItem(e.target.value))
             e.target.value =''
         }
     })
 
-    targetElement.querySelector('button.clear-completed').addEventListener('click', clearCompleted)
+    targetElement.querySelector('button.clear-completed')
+                .addEventListener('click', ()=>{
+                    dispatch(eventCreators.clearCompleted())
+                })
 
-    targetElement.querySelector('input.toggle-all').addEventListener('click', completeAll)
+    targetElement.querySelector('input.toggle-all')
+                .addEventListener('click', ()=>{
+                    dispatch(eventCreators.completeAll())
+                })
 
 }
 
 
- export default (targetElement,state, events) => { 
+ export default (targetElement,state, dispatch) => { 
     const newApp =targetElement.cloneNode(true)
     
     newApp.innerHTML = ''
     newApp.appendChild(getTemplate())
     
-    addEvents(newApp, events)
+    addEvents(newApp, dispatch)
 
     return newApp
   }

@@ -11,14 +11,14 @@ const INITIAL_STATE = {
 
 
 const addItem =(state, event)=>{
-    const {text} = event.payload
+    const text = event.payload
 
     if (!text){
         return state
     }
     return  {
             ...state, 
-            todos:[...todos, {
+            todos:[...state.todos, {
                 text,
                 completed:false
             }]}
@@ -35,7 +35,9 @@ const deleteItem = (state, event)=>{
     if(!state.todos[index]){
         return state
     }
-
+    console.log( {
+        todos: state.todos.filter((todo,i)=> i!==index)
+    })
     return {...state,
             todos: state.todos.filter((todo,i)=> i!==index)
         }
@@ -130,13 +132,13 @@ export default (initialState =INITIAL_STATE) =>{
             return cloneDeep(initialState)
         }
 
-        const currentModifier = methods(event.type)
+        const currentModifier = methods[event.type]
 
         if (!changeFilter){
             return prevState
         }
 
-        return currentModifier(prevState,currentModifier)
+        return currentModifier(prevState,event)
 
     }
 }

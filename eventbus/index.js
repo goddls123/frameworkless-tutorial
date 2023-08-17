@@ -6,6 +6,7 @@ import registry from "./registry.js";
 import applyDiff from "./applyDiff.js";
 
 import modelFactory from "./model/model.js"
+import eventBusFactory from "./model/eventBus.js";
 
 
 registry.add('app',appView)
@@ -26,21 +27,22 @@ const loadState = ()=>{
 
 const model =modelFactory(loadState())
 
-const {addChangeListener, ...events} = model
-
+const eventBus = eventBusFactory(model)
 
 const render =(state)=>{
     window.requestAnimationFrame(()=>{
         const main = document.querySelector('#root')
-        const newMain = registry.renderRoot(main, state, events)
+        const newMain = registry.renderRoot(main, state, eventBus.dispatch)
         applyDiff(document.body,main,newMain)
     })
 }
 
-addChangeListener(render)
+eventBus.subscribe(render)
 
-addChangeListener(state => {
+eventBus.subscribe(state => {
     Promise.resolve().then(()=>{
         window.localStorage.setItem('state', JSON.stringify(state))
     })
 })
+
+render(eventBus.getState())
