@@ -41,4 +41,4 @@ const getTemplate = () => {
     addEvents(newApp, dispatch)
 
     return newApp
-  }
+}

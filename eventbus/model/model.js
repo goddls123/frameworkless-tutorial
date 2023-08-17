@@ -1,3 +1,6 @@
+import todoModifier from './todos.js'
+import filterModifer from './filter.js'
+
 const cloneDeep = x => {
     return JSON.parse(JSON.stringify(x))
 }
@@ -10,135 +13,30 @@ const INITIAL_STATE = {
 }
 
 
-const addItem =(state, event)=>{
-    const text = event.payload
-
-    if (!text){
-        return state
-    }
-    return  {
-            ...state, 
-            todos:[...state.todos, {
-                text,
-                completed:false
-            }]}
-}
 
 
-const deleteItem = (state, event)=>{
-    const index = event.payload
-
-    if (index < 0){
-        return state
-    }
-
-    if(!state.todos[index]){
-        return state
-    }
-    console.log( {
-        todos: state.todos.filter((todo,i)=> i!==index)
-    })
-    return {...state,
-            todos: state.todos.filter((todo,i)=> i!==index)
-        }
-}
-
-const toggleCompleted = (state, event) =>{
-    const index = event.payload
-
-    if (index < 0){
-        return state
-    }
-
-    if(!state.todos[index]){
-        return state
-    }
-
-    return {
-        ...state,
-        todos:state.todos.map((todo,i)=>{
-            if (i === index) {
-                todo.completed = !todo.completed
-            }
-            return todo
-        })
-    }
-}
-
-const completeAll = (state, event)=>{
-    return {
-        ...state,
-        todos:state.todos.map(todo => {
-            todo.completed = true
-            return todo
-        })
-    }
-}
 
 
-const clearCompleted = (state, event)=>{
-    return {
-        ...state,
-        todos:state.todos.filter(todo => !todo.completed)
-    }
-}
-
-const updateItem = (state, event) =>{
-    const {index, text} =event.payload
-
-    if (!text){
-        return state
-    }
-
-    if (index < 0){
-        return state
-    }
-
-    if(!state.todos[index]){
-        return state
-    }   
-
-    return {
-        ...state,
-        todos: state.todos.map((todo,i)=>{
-            if (i === index){
-                todo.text = text
-            }
-            return todo
-        })
-    }
-}
-
-const changeFilter = (state, event)=>{
-    return {
-        ...state,
-        currentFilter:event.payload
-    }
-}
-
-const methods ={
-    ITEM_ADDED:addItem,
-    ITEM_UPDATED:updateItem,
-    ITEM_DELETED: deleteItem,
-    ITEMS_COMPLETED_TOGGLED: toggleCompleted,
-    ITEMS_MARKED_AS_COMPLETED: completeAll,
-    COMPLETED_ITEM_DELETED: clearCompleted,
-    FILTER_CHANGED: changeFilter
-}
 
 export default (initialState =INITIAL_STATE) =>{
     return (prevState, event)=>{
         if (!prevState){
             return cloneDeep(initialState)
         }
+        const {todos,currentFilter} = prevState
 
-        const currentModifier = methods[event.type]
+        const newTodos = todoModifier(todos,event)
+        const newCurrentFilter = filterModifer(currentFilter, event)
+        
 
-        if (!changeFilter){
+        if (newTodos === todos && newCurrentFilter === currentFilter){
             return prevState
         }
 
-        return currentModifier(prevState,event)
+        return {
+            todos:newTodos,
+            currentFilter:newCurrentFilter
+        }
 
     }
 }
